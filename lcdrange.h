@@ -1,20 +1,29 @@
 #ifndef LCDRANGE_H
 #define LCDRANGE_H
 
-#include <QWidget>
-#include <QLCDNumber>
-#include <QSlider>
-#include <QVBoxLayout>
+#include <QtWidgets>
 
 class LCDRange : public QWidget
 {
   Q_OBJECT
+
+private:
+    QSlider *slider;
+
 public:
   explicit LCDRange(QWidget *parent = 0);
-
-signals:
+  int value() const;
 
 public slots:
+  void setValue(int value);
+  void setRange(int minValue, int maxValue);
+
+signals:
+  void valueChanged(int newValue);
+
+protected:
+
+
 };
 
 #endif // LCDRANGE_H

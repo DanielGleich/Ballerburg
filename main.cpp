@@ -1,45 +1,40 @@
-#include <QApplication>
-#include <QtCore>
-#include <QtGui>
-#include <QVBoxLayout>
-#include <QGridLayout>
-#include <QPushButton>
+#include <QtWidgets>
 #include "lcdrange.h"
+#include "canonfield.h"
 
 class MyWidget : public QWidget
 {
- public:
-  MyWidget(QWidget *parent = 0);
+  public:
+    MyWidget(QWidget *parent = 0);
 };
 
 MyWidget::MyWidget(QWidget *parent)
-  :QWidget(parent)
+  : QWidget(parent)
 {
-  setWindowTitle("Anzeigeelemente 2");
-
-
+  setWindowTitle("Over the wall");
   QPushButton *pbExit = new QPushButton(tr("Beenden"));
-  pbExit->setFont(QFont("Times",18,QFont::Bold));
+  pbExit->setFont(QFont("Times", 18, QFont::Bold));
 
-  connect(pbExit, SIGNAL(clicked(bool)),qApp,SLOT(quit()));
+  LCDRange *lcd = new LCDRange(this);
+  CanonField *field = new CanonField();
+  QGridLayout *gridLayout = new QGridLayout();
+  gridLayout->setColumnStretch(1, 10);
 
-  QGridLayout *grid = new QGridLayout;
-  LCDRange *lcd[9];
-  for (int i = 0; i < 9; i++){
-      lcd[i] = new LCDRange(this);
-      grid->addWidget(lcd[i],i/3,i%3);
-    }
+  gridLayout->addWidget(pbExit, 0, 0);
+  gridLayout->addWidget(lcd,1,0);
+  gridLayout->addWidget(field,1,1,2,1);
 
-  QVBoxLayout *layout = new QVBoxLayout();
-  layout->addWidget(pbExit);
-  layout->addLayout(grid);
-  setLayout(layout);
+  setLayout(gridLayout);
+
+  connect(pbExit, SIGNAL(clicked(bool)), qApp, SLOT(quit()));
+  connect(lcd, SIGNAL(valueChanged(int)),field,SLOT(setAngle(int))); //RIP
 }
 
 int main(int argc, char *argv[])
 {
   QApplication app(argc,argv);
   MyWidget widget;
+  widget.setGeometry(100,100,500,355);
   widget.show();
   return app.exec();
 }
