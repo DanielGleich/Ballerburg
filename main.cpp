@@ -1,26 +1,45 @@
 #include <QApplication>
 #include <QWidget>
 #include <QPushButton>
-#include <QFont>
+#include <QLCDNumber>
+#include <QSlider>
+#include <QVBoxLayout>
+
+class MyWidget : public QWidget
+{
+public:
+  MyWidget(QWidget *parent = 0);
+};
+
+MyWidget::MyWidget(QWidget *parent)
+  : QWidget(parent)
+{
+  this->setFixedSize(300,120);
+
+  QPushButton *pbExit = new QPushButton(tr("Beenden"), this);
+  pbExit->setFont(QFont("Times",18,QFont::Bold));
+  connect(pbExit,SIGNAL(clicked(bool)), qApp,SLOT(quit()));
+
+  QLCDNumber *lcd = new QLCDNumber(2,this);
+  lcd->setSegmentStyle(QLCDNumber::Filled);
+
+  QSlider *slider = new QSlider(Qt::Horizontal,this);
+  slider->setRange(0,99);
+  slider->setValue(0);
+
+  connect(slider,SIGNAL(valueChanged(int)),lcd,SLOT(display(int)) );
+
+  QVBoxLayout *layout = new QVBoxLayout;
+  layout->addWidget(pbExit);
+  layout->addWidget(lcd);
+  layout->addWidget(slider);
+  setLayout(layout);
+}
 
 int main(int argc, char *argv[])
 {
-  QApplication a(argc, argv);
-  QWidget w;
-  w.setFixedSize(300,200);
-  w.setWindowTitle("Exit Button Übung");
-
-  QPushButton pbExit("Beenden",&w);
-  pbExit.setGeometry(55,70,200,40);
-
-  QFont myFont;
-  myFont.setBold(true);
-  myFont.setFamily("Times");
-  myFont.setPixelSize(18);
-  pbExit.setFont(myFont);
-
-  QObject::connect(&pbExit,SIGNAL(clicked(bool)),&w,SLOT( close() )  );
-
+  QApplication app(argc,argv);
+  MyWidget w;
   w.show();
-  return a.exec();
+  return app.exec();
 }
