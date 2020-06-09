@@ -9,6 +9,13 @@ CanonField::CanonField(QWidget *parent)
   setAutoFillBackground(true);
 }
 
+QRect CanonField::canonRect() const
+{
+  QRect result(0,0,70,70);
+  result.moveBottomLeft(rect().bottomLeft());
+  return result;
+}
+
 void CanonField::setAngle(int angle)
 {
   if (angle < 5) angle = 5;
@@ -16,6 +23,11 @@ void CanonField::setAngle(int angle)
   if (currentAngle == angle) return;
   currentAngle = angle;
   update();
+}
+
+void CanonField::setForce(int force)
+{
+
 }
 
 void CanonField::paintEvent(QPaintEvent*)

@@ -10,15 +10,23 @@ class CanonField : public QWidget
   public:
     CanonField(QWidget *parent = 0);
     int angle() const { return currentAngle; }
+    int force() const { return currentForce; }
+    QRect canonRect() const;
 
   public slots:
     void setAngle(int angle);
+    void setForce(int force);
 
   protected:
     void paintEvent(QPaintEvent *);
 
   private:
     int currentAngle;
+    int currentForce;
+
+  signals:
+    void angleChanged(int newValue);
+    void forceChanged(int newValue);
 };
 
 #endif // CANONFIELD_H

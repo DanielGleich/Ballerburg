@@ -31,7 +31,6 @@ MyWidget::MyWidget(QWidget *parent)
   setLayout(gridLayout);
 
   connect(pbExit, SIGNAL(clicked(bool)), qApp, SLOT(quit()));
-  connect(lcd, SIGNAL(valueChanged(int)),field,SLOT(setAngle(int))); //RIP
   connect(lcd, SIGNAL(valueChanged(int)),field,SLOT(setAngle(int)));
   lcd->setValue(45);
 }
