@@ -1,45 +1,45 @@
 #include <QApplication>
-#include <QWidget>
-#include <QPushButton>
-#include <QLCDNumber>
-#include <QSlider>
+#include <QtCore>
+#include <QtGui>
 #include <QVBoxLayout>
+#include <QGridLayout>
+#include <QPushButton>
+#include "lcdrange.h"
 
 class MyWidget : public QWidget
 {
-public:
+ public:
   MyWidget(QWidget *parent = 0);
 };
 
 MyWidget::MyWidget(QWidget *parent)
-  : QWidget(parent)
+  :QWidget(parent)
 {
-  this->setFixedSize(300,120);
+  setWindowTitle("Anzeigeelemente 2");
 
-  QPushButton *pbExit = new QPushButton(tr("Beenden"), this);
+
+  QPushButton *pbExit = new QPushButton(tr("Beenden"));
   pbExit->setFont(QFont("Times",18,QFont::Bold));
-  connect(pbExit,SIGNAL(clicked(bool)), qApp,SLOT(quit()));
 
-  QLCDNumber *lcd = new QLCDNumber(2,this);
-  lcd->setSegmentStyle(QLCDNumber::Filled);
+  connect(pbExit, SIGNAL(clicked(bool)),qApp,SLOT(quit()));
 
-  QSlider *slider = new QSlider(Qt::Horizontal,this);
-  slider->setRange(0,99);
-  slider->setValue(0);
+  QGridLayout *grid = new QGridLayout;
+  LCDRange *lcd[9];
+  for (int i = 0; i < 9; i++){
+      lcd[i] = new LCDRange(this);
+      grid->addWidget(lcd[i],i/3,i%3);
+    }
 
-  connect(slider,SIGNAL(valueChanged(int)),lcd,SLOT(display(int)) );
-
-  QVBoxLayout *layout = new QVBoxLayout;
+  QVBoxLayout *layout = new QVBoxLayout();
   layout->addWidget(pbExit);
-  layout->addWidget(lcd);
-  layout->addWidget(slider);
+  layout->addLayout(grid);
   setLayout(layout);
 }
 
 int main(int argc, char *argv[])
 {
   QApplication app(argc,argv);
-  MyWidget w;
-  w.show();
+  MyWidget widget;
+  widget.show();
   return app.exec();
 }
