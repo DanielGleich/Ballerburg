@@ -1,6 +1,7 @@
 #ifndef CANONFIELD_H
 #define CANONFIELD_H
-#include <QtWidgets>
+#include <QWidget>
+#include <QPainter>
 
 class CanonField : public QWidget
 {

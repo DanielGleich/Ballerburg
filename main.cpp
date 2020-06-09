@@ -1,4 +1,8 @@
-#include <QtWidgets>
+#include <QWidget>
+#include <QPushButton>
+#include <QGridLayout>
+#include <QSlider>
+#include <QApplication>
 #include "lcdrange.h"
 #include "canonfield.h"
 
@@ -28,6 +32,8 @@ MyWidget::MyWidget(QWidget *parent)
 
   connect(pbExit, SIGNAL(clicked(bool)), qApp, SLOT(quit()));
   connect(lcd, SIGNAL(valueChanged(int)),field,SLOT(setAngle(int))); //RIP
+  connect(lcd, SIGNAL(valueChanged(int)),field,SLOT(setAngle(int)));
+  lcd->setValue(45);
 }
 
 int main(int argc, char *argv[])

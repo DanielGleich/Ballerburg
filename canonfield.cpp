@@ -21,5 +21,10 @@ void CanonField::setAngle(int angle)
 void CanonField::paintEvent(QPaintEvent*)
 {
   QPainter painter(this);
-  painter.drawText(200,200,"Winkel =" + QString::number (currentAngle));
+  painter.setPen(Qt::DashLine);
+  painter.setBrush(QColor(66,134,244,255));
+  painter.translate(0,rect().height());
+  painter.drawPie( QRect( -35, -35, 70, 70), 0, 90*16 );
+  painter.rotate(-currentAngle);
+  painter.drawRect(QRect(30, -5, 20, 10));
 }

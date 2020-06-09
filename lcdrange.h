@@ -1,7 +1,10 @@
 #ifndef LCDRANGE_H
 #define LCDRANGE_H
 
-#include <QtWidgets>
+#include <QWidget>
+#include <QSlider>
+#include <QLCDNumber>
+#include <QVBoxLayout>
 
 class LCDRange : public QWidget
 {
